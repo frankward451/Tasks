@@ -61,11 +61,16 @@ outPhy <- read.tree(text=stats$trees[[locus]][n])
 par(mfrow=c(1, 1))
 densityTree(outPhy)
 model3 <- coal_model(10,50) +
-feat_mutation(par_prior("theta", sample.int(100,1)))
-sumstat_nucleotide_div()
+  feat_mutation(par_prior("theta", sample.int(100,1))) +
+  sumstat_nucleotide_div()
 stats <- simulate(model3, nsim = 40)
 mean_pi <- sapply(stats, function(x) mean(x$pi))
-warnings()
 theta <- sapply(stats, function(x) x$pars[["theta"]])
 
-
+mean_pi
+theta
+plot(x=mean_pi, y=theta)
+?lm
+ModelR <- lm(theta ~ mean_pi)
+summary(ModelR)
+abline(ModelR, col='blue')
